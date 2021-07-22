@@ -13,7 +13,7 @@ const lightTheme = {
   background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
   paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#F9F9F9EE",
-  popoverrBg: "rgba(255, 255, 255, 0.8)",
+  popoverBg: "rgba(255, 255, 255, 0.9)",
   menuBg: "rgba(255, 255, 255, 0.5)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
