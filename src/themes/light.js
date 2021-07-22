@@ -13,7 +13,7 @@ const lightTheme = {
   background: "linear-gradient(180deg, #AFCDE9 1%, #F7FBE7 100%)",
   paperBg: "rgba(255, 255, 255, 0.6)",
   modalBg: "#F9F9F9EE",
-  popoverBg: "rgba(255, 255, 255, 0.96)",
+  popoverrBg: "rgba(255, 255, 255, 0.8)",
   menuBg: "rgba(255, 255, 255, 0.5)",
   largeTextColor: "#759AAE",
   activeLinkColor: "#222222",
@@ -84,12 +84,12 @@ export const light = responsiveFontSizes(
             },
             "&.ohm-menu": {
               backgroundColor: lightTheme.menuBg,
-              backdropFilter: "blur(33px)",
+              backdropFilter: "blur(60px)",
             },
             "&.ohm-popover": {
               backgroundColor: lightTheme.popoverBg,
               color: lightTheme.color,
-              backdropFilter: "blur(15px)",
+              backdropFilter: "blur(33px)",
             },
           },
         },
@@ -139,38 +139,11 @@ export const light = responsiveFontSizes(
           root: {
             backgroundColor: lightTheme.paperBg,
             "&:hover": {
-              color: lightTheme.color,
+              color: "#FCFCFC",
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
             },
             selected: {
               backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
-            },
-            "@media (hover:none)": {
-              "&:hover": {
-                color: lightTheme.color,
-                backgroundColor: lightTheme.paperBg,
-              },
-              "&:focus": {
-                color: lightTheme.color,
-                backgroundColor: lightTheme.paperBg,
-              },
-            },
-          },
-        },
-        MuiIconButton: {
-          root: {
-            "&:hover": {
-              backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
-            },
-            "@media (hover:none)": {
-              "&:hover": {
-                color: lightTheme.color,
-                backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
-              },
-              "&:focus": {
-                color: lightTheme.color,
-                backgroundColor: lightTheme.containedSecondaryButtonHoverBG,
-              },
             },
           },
         },
