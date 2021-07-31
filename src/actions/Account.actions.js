@@ -3,7 +3,6 @@ import { addresses, Actions } from "../constants";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as sOHM } from "../abi/sOHM.json";
 import { abi as sOHMv2 } from "../abi/sOhmv2.json";
-import apollo from "../lib/apolloClient";
 
 export const fetchAccountSuccess = payload => ({
   type: Actions.FETCH_ACCOUNT_SUCCESS,
@@ -27,29 +26,12 @@ export const loadAccountDetails =
     let daiBondAllowance = 0;
     let aOHMAbleToClaim = 0;
 
-    // const accountQuery = `
-    //   query($id: String) {
-    //     ohmie(id: $id) {
-    //       id
-    //       lastBalance {
-    //         ohmBalance
-    //         sohmBalance
-    //         bondBalance
-    //       }
-    //     }
-    //   }
-    // `;
-
-    // const graphData = await apollo(accountQuery);
-
-    // these work in playground but show up as null, maybe subgraph api not caught up?
-    // ohmBalance = graphData.data.ohmie.lastBalance.ohmBalance;
-    // sohmBalance = graphData.data.ohmie.lastBalance.sohmBalance;
     let migrateContract;
     let unstakeAllowanceSohm;
 
     const daiContract = new ethers.Contract(addresses[networkID].DAI_ADDRESS, ierc20Abi, provider);
     const daiBalance = await daiContract.balanceOf(address);
+    console.log(daiBalance);
 
     if (addresses[networkID].OHM_ADDRESS) {
       const ohmContract = new ethers.Contract(addresses[networkID].OHM_ADDRESS, ierc20Abi, provider);
@@ -57,8 +39,8 @@ export const loadAccountDetails =
       stakeAllowance = await ohmContract.allowance(address, addresses[networkID].STAKING_HELPER_ADDRESS);
     }
 
-    if (addresses[networkID].DAI_BOND_ADDRESS) {
-      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].DAI_BOND_ADDRESS);
+    if (addresses[networkID].BONDS.DAI) {
+      daiBondAllowance = await daiContract.allowance(address, addresses[networkID].BONDS.DAI);
     }
 
     if (addresses[networkID].SOHM_ADDRESS) {
@@ -72,7 +54,7 @@ export const loadAccountDetails =
       oldsohmBalance = await oldsohmContract.balanceOf(address);
 
       const signer = provider.getSigner();
-      unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS);
+      unstakeAllowanceSohm = await oldsohmContract.allowance(address, addresses[networkID].OLD_STAKING_ADDRESS, signer);
     }
 
     return dispatch(

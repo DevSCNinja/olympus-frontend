@@ -20,6 +20,11 @@ function getMainnetURI() {
   return `https://mainnet.infura.io/v3/${randomInfuraID}`;
 }
 
+function getTestnetURI() {
+  const INFURA_TESTNET_ID = "d9836dbf00c2440d862ab571b462e4a3";
+  return `https://rinkeby.infura.io/v3/${INFURA_TESTNET_ID}`;
+}
+
 // https://cloudflare-eth.com is also an option
 function getAlchemyAPI() {
   return "https://eth-mainnet.alchemyapi.io/v2/R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o";
@@ -32,6 +37,7 @@ type onChainProvider = {
   connect: () => void;
   disconnect: () => void;
   provider: JsonRpcProvider;
+  chainID: number;
   address: string;
   connected: Boolean;
   web3Modal: Web3Modal;
@@ -74,9 +80,6 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       providerOptions: {
         walletconnect: {
           package: WalletConnectProvider, // required
-          options: {
-            infuraId: INFURA_ID,
-          },
         },
       },
     }),
@@ -96,8 +99,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
       setTimeout(() => window.location.reload(), 1);
     });
 
-    provider.on("chainChanged", () => {
-      if (_hasCachedProvider()) return;
+    provider.on("chainChanged", (chain: number) => {
+      let validNetwork = _checkNetwork(chain);
+      if (validNetwork) setChainID(chain);
+      // if (_hasCachedProvider()) return;
       setTimeout(() => window.location.reload(), 1);
     });
   }, [provider]);
@@ -105,7 +110,11 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   // Eventually we will not need this method.
   const _checkNetwork = (otherChainID: number): Boolean => {
     if (chainID !== otherChainID) {
-      console.error("Wrong network, please switch to mainnet");
+      if (otherChainID === 4) {
+        console.warn("Hey Fren, you are switching to Rinkeby testnet - if you are not a developer you should go back");
+        return true;
+      }
+      console.error("Switching to an unsupported network, please revert to ethereum mainnet");
       return false;
     }
     return true;
@@ -144,8 +153,8 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   }, [provider, web3Modal, connected]);
 
   const onChainProvider = useMemo(
-    () => ({ connect, disconnect, provider, connected, address, web3Modal }),
-    [connect, disconnect, provider, connected, address, web3Modal],
+    () => ({ connect, disconnect, provider, chainID, connected, address, web3Modal }),
+    [connect, disconnect, provider, chainID, connected, address, web3Modal],
   );
 
   useEffect(() => {
