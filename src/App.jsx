@@ -12,7 +12,7 @@ import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, PoolTogether } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -77,8 +77,8 @@ function App() {
   const classes = useStyles();
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const isSmallerScreen = useMediaQuery("(max-width: 960px)");
-  const isSmallScreen = useMediaQuery("(max-width: 600px)");
+  const isSmallerScreen = useMediaQuery("(max-width: 900px)");
+  const isSmallScreen = useMediaQuery("(max-width: 620px)");
 
   const { provider, chainID } = useWeb3Context();
   const address = useAddress();
@@ -102,7 +102,7 @@ function App() {
 
   useEffect(() => {
     loadDetails();
-  }, [provider, address]);
+  }, [provider, address, chainID]);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -151,6 +151,10 @@ function App() {
               <Route exact path="/stake/migrate">
                 <Migrate />
               </Route>
+            </Route>
+
+            <Route path="/33-together">
+              <PoolTogether />
             </Route>
 
             <Route path="/bonds">
