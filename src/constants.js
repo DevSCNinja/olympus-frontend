@@ -93,6 +93,13 @@ export const BONDS = {
   eth: "eth",
 };
 
+export const PLUTUS_BONDS = {
+  alcx_eth: "alcx_eth_lp",
+  spell_eth: "spell_eth_lp",
+  mim_eth: "mim_eth_lp",
+  float_eth: "float_eth_lp",
+};
+
 export const Actions = {
   FETCH_ACCOUNT_SUCCESS: "account/FETCH_ACCOUNT_SUCCESS",
   FETCH_APP_SUCCESS: "app/FETCH_APP_SUCCESS",

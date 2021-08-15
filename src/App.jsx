@@ -12,7 +12,7 @@ import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard } from "./views";
+import { Stake, ChooseBond, Bond, Dashboard, Plutus } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -23,7 +23,7 @@ import { dark as darkTheme } from "./themes/dark.js";
 import { light as lightTheme } from "./themes/light.js";
 import { girth as gTheme } from "./themes/girth.js";
 
-import { BONDS } from "./constants";
+import { BONDS, PLUTUS_BONDS } from "./constants";
 import "./style.scss";
 
 // 😬 Sorry for all the console logging
@@ -162,6 +162,17 @@ function App() {
                 );
               })}
               <ChooseBond />
+            </Route>
+
+            <Route path="/plutus">
+              {Object.values(PLUTUS_BONDS).map(bond => {
+                return (
+                  <Route exact key={bond} path={`/plutus/${bond}`}>
+                    <Bond bond={bond} />
+                  </Route>
+                );
+              })}
+              <Plutus />
             </Route>
 
             <Route component={NotFound} />

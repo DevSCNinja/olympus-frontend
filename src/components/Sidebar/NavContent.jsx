@@ -29,6 +29,9 @@ function NavContent() {
     if ((currentPath.indexOf("bonds") >= 0 || currentPath.indexOf("choose_bond") >= 0) && page === "bonds") {
       return true;
     }
+    if (currentPath.indexOf("plutus") >= 0 && page === "plutus") {
+      return true;
+    }
     return false;
   }, []);
 
@@ -118,6 +121,22 @@ function NavContent() {
                     </Link>
                   ))}
                 </div>
+
+                <Link
+                  component={NavLink}
+                  id="pro-nav"
+                  to="/plutus"
+                  isActive={(match, location) => {
+                    return checkPage(match, location, "plutus");
+                  }}
+                  className={`button-dapp-menu ${isActive ? "active" : ""}`}
+                  style={{ display: "inline-block" }}
+                >
+                  <Typography variant="h6" style={{ display: "inline-block" }}>
+                    <SvgIcon color="primary" component={BondIcon} />
+                    Plutus
+                  </Typography>
+                </Link>
               </div>
             </div>
           </div>

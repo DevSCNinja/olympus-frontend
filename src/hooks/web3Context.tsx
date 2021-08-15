@@ -2,6 +2,7 @@ import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallb
 import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import WalletConnectProvider from "@walletconnect/web3-provider";
+import { providers } from "ethers";
 
 // TODO(zayenx): REMEMBER THIS!!!
 // Use this in production!
@@ -12,20 +13,22 @@ const INFURA_ID_LIST = [
   "76cc9de4a72c4f5a8432074935d670a3", // Adding Zayen's to the mix
 ];
 
-function getInfuraURI() {
+const ALCHEMY_ID_LIST = [
+  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
+  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
+];
+
+function getInfura(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * INFURA_ID_LIST.length);
   const randomInfuraID = INFURA_ID_LIST[randomIndex];
-  return `https://mainnet.infura.io/v3/${randomInfuraID}`;
+  if (chainID === 1) return `https://mainnet.infura.io/v3/${randomInfuraID}`;
+  else if (chainID === 4) return `https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3`;
 }
 
 function getTestnetURI() {
   return "https://rinkeby.infura.io/v3/d9836dbf00c2440d862ab571b462e4a3";
 }
 
-const ALCHEMY_ID_LIST = [
-  "R3yNR4xHH6R0PXAG8M1ODfIq-OHd-d3o", // this is Zayen's
-  "DNj81sBwBcgdjHHBUse4naHaW82XSKtE", // this is Girth's
-];
 function getAlchemyAPI(chainID: Number) {
   const randomIndex = Math.floor(Math.random() * ALCHEMY_ID_LIST.length);
   const randomAlchemyID = ALCHEMY_ID_LIST[randomIndex];
@@ -47,8 +50,10 @@ function getMainnetURI(chainID: number): string {
 
   const workingURI = allURIs.find(async uri => {
     try {
-      const provider = new StaticJsonRpcProvider(uri);
-      await provider.getNetwork();
+      let provider = new StaticJsonRpcProvider(uri);
+      // await provider.getNetwork();
+      let block = await provider.getBlockNumber();
+      if (block < 0) return false;
       return true;
     } catch (e) {
       console.error("couldn't connect to: ", uri);
