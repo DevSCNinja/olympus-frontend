@@ -94,9 +94,7 @@ export const addresses = {
 
     // If we stick to Object.values(PLUTUS_BONDS), it'll simplify the code significantly.
     PLUTUS_BONDS: {
-      uni_eth_lp: {
-        
-      }
+      uni_eth_lp: {},
     },
   },
 };
