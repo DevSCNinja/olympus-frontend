@@ -10,6 +10,7 @@ import { abi as ReserveOhmDaiContract } from "../abi/reserves/OhmDai.json";
 import { abi as ReserveOhmFraxContract } from "../abi/reserves/OhmFrax.json";
 import { abi as FraxBondContract } from "../abi/bonds/FraxContract.json";
 import { abi as EthBondContract } from "../abi/bonds/EthContract.json";
+import { abi as CustomBondContract } from "../abi/bonds/CustomBondContract.json";
 
 import { Box, SvgIcon } from "@material-ui/core";
 import { ReactComponent as OhmImg } from "../assets/tokens/token_OHM.svg";
