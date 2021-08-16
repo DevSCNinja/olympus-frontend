@@ -28,6 +28,12 @@ export const makeProBondsArray = (alcxBondDiscount, spellBondDiscount, mimBondDi
       discount: Number(floatBondDiscount),
       link: "https://etherscan.io/",
     },
+    {
+      name: "UNI-ETH LP",
+      value: "uni_eth_lp",
+      discount: Number(0.05),
+      link: "https://rinkeby.etherscan.io/token/0x4e99615101ccbb83a462dc4de2bc1362ef1365e5",
+    },
   ];
 };
 

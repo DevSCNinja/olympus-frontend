@@ -45,6 +45,12 @@ export const addresses = {
       FRAX: "0xF651283543fB9D61A91f318b78385d187D300738",
       ETH: "0xca7b90f8158A4FAA606952c023596EE6d322bcf0",
     },
+
+    // If we stick to Object.values(PLUTUS_BONDS), it'll simplify the code significantly.
+    PLUTUS_BONDS: {
+      uni_eth_lp: "0x4e99615101ccbb83a462dc4de2bc1362ef1365e5",
+    },
+
     POOL_TOGETHER: {
       POOL_ADDRESS: "0xF89e906632b1B1C036A92B56d3409347735C5D4c", // contract to get current prize amount, deposit/withdraw on pool
       START_AWARD_ADDRESS: "0x54c18FB75f946424AF15221414B15a814Ca1EFD0", // contract to start/compolete award
@@ -82,6 +88,9 @@ export const addresses = {
       FRAX: "0x8510c8c2B6891E04864fa196693D44E6B6ec2514", // FRAX Bonds
       ETH: "0xE6295201CD1ff13CeD5f063a5421c39A1D236F1c",
     },
+
+    // If we stick to Object.values(PLUTUS_BONDS), it'll simplify the code significantly.
+    PLUTUS_BONDS: {},
   },
 };
 
@@ -98,6 +107,7 @@ export const PLUTUS_BONDS = {
   spell_eth: "spell_eth_lp",
   mim_eth: "mim_eth_lp",
   float_eth: "float_eth_lp",
+  uni_eth: "uni_eth_lp",
 };
 
 export const Actions = {
