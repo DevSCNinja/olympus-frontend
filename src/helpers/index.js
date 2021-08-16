@@ -21,6 +21,10 @@ import { ReactComponent as FraxImg } from "../assets/tokens/FRAX.svg";
 import { ReactComponent as OhmFraxImg } from "../assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as wETHImg } from "../assets/tokens/wETH.svg";
 
+export function isPlutusBond(bond) {
+  return Object.values(PLUTUS_BONDS).indexOf(bond) > -1;
+}
+
 export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.ohm_dai) {
     return addresses[networkID].BONDS.OHM_DAI;
@@ -37,6 +41,8 @@ export function addressForBond({ bond, networkID }) {
   if (bond === BONDS.eth) {
     return addresses[networkID].BONDS.ETH;
   }
+
+  if (isPlutusBond(bond)) return addresses[networkID].PLUTUS_BONDS[bond];
 }
 
 export function addressForAsset({ bond, networkID }) {
@@ -92,6 +98,9 @@ export function contractForBond({ bond, networkID, provider }) {
   if (bond === BONDS.eth) {
     return new ethers.Contract(addresses[networkID].BONDS.ETH, EthBondContract, provider);
   }
+
+  if (isPlutusBond(bond))
+    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond], CustomBondContract, provider);
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
