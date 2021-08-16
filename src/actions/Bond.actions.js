@@ -1,6 +1,14 @@
 import { ethers } from "ethers";
-import { isBondLP, getMarketPrice, contractForBond, contractForReserve, addressForAsset, bondName } from "../helpers";
-import { addresses, Actions, BONDS } from "../constants";
+import {
+  isBondLP,
+  getMarketPrice,
+  contractForBond,
+  contractForReserve,
+  addressForAsset,
+  bondName,
+  isPlutusBond,
+} from "../helpers";
+import { addresses, Actions, BONDS, PLUTUS_BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { clearPendingTxn, fetchPendingTxns } from "./PendingTxns.actions";
@@ -50,6 +58,13 @@ export const changeApproval =
         // <-- added for eth
         approveTx = await reserveContract.approve(
           addresses[networkID].BONDS.ETH,
+          ethers.utils.parseUnits("1000000000", "ether").toString(),
+        );
+      }
+
+      if (isPlutusBond(bond)) {
+        approveTx = await reserveContract.approve(
+          addresses[networkID].PLUTUS_BONDS[bond].bondContract,
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       }
