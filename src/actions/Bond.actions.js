@@ -199,6 +199,13 @@ export const calculateUserBondDetails =
       balance = ethers.utils.formatUnits(balance, "ether");
     }
 
+    if (isPlutusBond(bond)) {
+      allowance = await reserveContract.allowance(address, addresses[networkID].PLUTUS_BONDS[bond].bondContract);
+
+      balance = await reserveContract.balanceOf(address);
+      balance = ethers.utils.formatUnits(balance, "ether");
+    }
+
     return dispatch(
       fetchBondSuccess({
         bond,

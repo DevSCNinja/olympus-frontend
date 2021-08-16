@@ -100,7 +100,7 @@ export function contractForBond({ bond, networkID, provider }) {
   }
 
   if (isPlutusBond(bond))
-    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond], CustomBondContract, provider);
+    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].bondContract, CustomBondContract, provider);
 }
 
 export function contractForReserve({ bond, networkID, provider }) {
@@ -119,6 +119,9 @@ export function contractForReserve({ bond, networkID, provider }) {
   if (bond === BONDS.eth) {
     return new ethers.Contract(addresses[networkID].RESERVES.ETH, ierc20Abi, provider);
   }
+
+  if (isPlutusBond(bond))
+    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].payout, ierc20Abi, provider);
 }
 
 export async function getMarketPrice({ networkID, provider }) {
