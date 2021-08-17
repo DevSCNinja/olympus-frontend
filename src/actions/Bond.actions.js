@@ -98,12 +98,12 @@ export const calcBondDetails =
     let bondPrice, bondDiscount, valuation, bondQuote, debtRatio;
 
     const bondContract = contractForBond({ bond, networkID, provider });
-    const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
     let marketPrice = await getMarketPrice({ networkID, provider });
 
+    // TODO: Need to verify that debtRatio
     if (isPlutusBond(bond)) {
       debtRatio = (await bondContract.debtRatio()) / Math.pow(10, 9);
 
@@ -126,10 +126,20 @@ export const calcBondDetails =
 
     if (bond === BONDS.ohm_dai) {
       // RFV = assume 1:1 backing
+      const bondCalcContract = new ethers.Contract(
+        addresses[networkID].BONDINGCALC_ADDRESS,
+        BondCalcContract,
+        provider,
+      );
       valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_DAI, amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
       bondQuote = bondQuote / Math.pow(10, 9);
     } else if (bond === BONDS.ohm_frax) {
+      const bondCalcContract = new ethers.Contract(
+        addresses[networkID].BONDINGCALC_ADDRESS,
+        BondCalcContract,
+        provider,
+      );
       valuation = await bondCalcContract.valuation(addresses[networkID].RESERVES.OHM_FRAX, amountInWei);
       bondQuote = await bondContract.payoutFor(valuation);
       bondQuote = bondQuote / Math.pow(10, 9);
@@ -154,6 +164,13 @@ export const calcBondDetails =
 
     // Value the bond
     if (isBondLP(bond)) {
+      // RFV = assume 1:1 backing
+      const bondCalcContract = new ethers.Contract(
+        addresses[networkID].BONDINGCALC_ADDRESS,
+        BondCalcContract,
+        provider,
+      );
+
       const markdown = await bondCalcContract.markdown(addressForAsset({ bond, networkID }));
       purchased = await bondCalcContract.valuation(addressForAsset({ bond, networkID }), purchased);
       purchased = (markdown / Math.pow(10, 18)) * (purchased / Math.pow(10, 9));
