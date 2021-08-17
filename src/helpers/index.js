@@ -2,7 +2,7 @@ import { addresses, EPOCH_INTERVAL, BLOCK_RATE_SECONDS, BONDS, PLUTUS_BONDS } fr
 import { ethers } from "ethers";
 import { abi as ierc20Abi } from "../abi/IERC20.json";
 import { abi as PairContract } from "../abi/PairContract.json";
-
+import axios from "axios";
 import { abi as BondOhmDaiContract } from "../abi/bonds/OhmDaiContract.json";
 import { abi as BondOhmFraxContract } from "../abi/bonds/OhmFraxContract.json";
 import { abi as BondDaiContract } from "../abi/bonds/DaiContract.json";
@@ -139,6 +139,11 @@ export async function getMarketPrice({ networkID, provider }) {
 
   // commit('set', { marketPrice: marketPrice / Math.pow(10, 9) });
   return marketPrice;
+}
+
+export async function getTokenPrice({ token }) {
+  const resp = await axios.get("https://api.coingecko.com/api/v3/simple/price?ids=alchemix&vs_currencies=usd");
+  return resp.data[token].usd;
 }
 
 export function shorten(str) {

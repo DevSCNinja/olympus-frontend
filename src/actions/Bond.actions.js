@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import {
   isBondLP,
   getMarketPrice,
+  getTokenPrice,
   contractForBond,
   contractForReserve,
   addressForAsset,
