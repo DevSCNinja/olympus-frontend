@@ -12,7 +12,7 @@ import { calcBondDetails } from "./actions/Bond.actions.js";
 import { loadAppDetails } from "./actions/App.actions.js";
 import { loadAccountDetails } from "./actions/Account.actions.js";
 
-import { Stake, ChooseBond, Bond, Dashboard, Plutus } from "./views";
+import { Stake, ChooseBond, Bond, PlutusBond, Dashboard, Plutus } from "./views";
 import Sidebar from "./components/Sidebar/Sidebar.jsx";
 import TopBar from "./components/TopBar/TopBar.jsx";
 import Migrate from "./views/Stake/Migrate";
@@ -168,7 +168,7 @@ function App() {
               {Object.values(PLUTUS_BONDS).map(bond => {
                 return (
                   <Route exact key={bond} path={`/plutus/${bond}`}>
-                    <Bond bond={bond} />
+                    <PlutusBond bond={bond} />
                   </Route>
                 );
               })}
