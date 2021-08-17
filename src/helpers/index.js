@@ -68,7 +68,7 @@ export function addressForRedeemHelper({ networkID }) {
 }
 
 export function isBondLP(bond) {
-  return bond.indexOf("_lp") >= 0;
+  return !isPlutusBond(bond) && bond.indexOf("_lp") >= 0;
 }
 
 export function lpURL(bond) {
