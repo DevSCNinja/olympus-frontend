@@ -96,17 +96,17 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondPrice, bondDiscount, valuation, bondQuote, debtRatio;
+    let bondPrice, bondDiscount, valuation, bondQuote, debtRatio, marketPrice;
 
     const bondContract = contractForBond({ bond, networkID, provider });
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
-    let marketPrice = await getMarketPrice({ networkID, provider });
 
     // TODO: Need to verify that debtRatio
     if (isPlutusBond(bond)) {
       debtRatio = (await bondContract.debtRatio()) / Math.pow(10, 9);
+      marketPrice = await getTokenPrice({ token: addresses[networkID].PLUTUS_BONDS[bond].payoutTokenID });
 
       try {
         bondPrice = await bondContract.bondPrice();
@@ -116,6 +116,7 @@ export const calcBondDetails =
       }
     } else {
       debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
+      marketPrice = await getMarketPrice({ networkID, provider });
 
       try {
         bondPrice = await bondContract.bondPriceInUSD();
@@ -123,6 +124,8 @@ export const calcBondDetails =
       } catch (e) {
         console.log("error getting bondPriceInUSD", e);
       }
+
+      marketPrice = marketPrice / Math.pow(10, 9);
     }
 
     if (bond === BONDS.ohm_dai) {
@@ -194,7 +197,7 @@ export const calcBondDetails =
         vestingTerm: terms.vestingTerm,
         maxBondPrice: maxBondPrice / Math.pow(10, 9),
         bondPrice: bondPrice / Math.pow(10, 18),
-        marketPrice: marketPrice / Math.pow(10, 9),
+        marketPrice,
       }),
     );
   };
