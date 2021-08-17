@@ -4,35 +4,35 @@ import orderBy from "lodash/orderBy";
 
 export const makeProBondsArray = (alcxBondDiscount, spellBondDiscount, mimBondDiscount, floatBondDiscount) => {
   return [
+    // {
+    //   name: "ALCX-ETH LP",
+    //   value: "alcx_eth_lp",
+    //   discount: Number(alcxBondDiscount),
+    //   link: "https://etherscan.io/",
+    // },
+    // {
+    //   name: "SPELL-ETH LP",
+    //   value: "spell_eth_lp",
+    //   discount: Number(spellBondDiscount),
+    //   link: "https://etherscan.io/",
+    // },
+    // {
+    //   name: "MIM-ETH LP",
+    //   value: "mim_eth_lp",
+    //   discount: Number(mimBondDiscount),
+    //   link: "https://etherscan.io/",
+    // },
+    // {
+    //   name: "FLOAT-ETH LP",
+    //   value: "float_eth_lp",
+    //   discount: Number(floatBondDiscount),
+    //   link: "https://etherscan.io/",
+    // },
     {
       name: "ALCX-ETH LP",
       value: "alcx_eth_lp",
       discount: Number(alcxBondDiscount),
-      link: "https://etherscan.io/",
-    },
-    {
-      name: "SPELL-ETH LP",
-      value: "spell_eth_lp",
-      discount: Number(spellBondDiscount),
-      link: "https://etherscan.io/",
-    },
-    {
-      name: "MIM-ETH LP",
-      value: "mim_eth_lp",
-      discount: Number(mimBondDiscount),
-      link: "https://etherscan.io/",
-    },
-    {
-      name: "FLOAT-ETH LP",
-      value: "float_eth_lp",
-      discount: Number(floatBondDiscount),
-      link: "https://etherscan.io/",
-    },
-    {
-      name: "UNI-ETH LP",
-      value: "uni_eth_lp",
-      discount: Number(0.05),
-      link: "https://rinkeby.etherscan.io/token/0x4e99615101ccbb83a462dc4de2bc1362ef1365e5",
+      link: "https://rinkeby.etherscan.io/token/0xff4D1b6B794A3264Ed151A74d7f1eeDB762f71b0",
     },
   ];
 };
