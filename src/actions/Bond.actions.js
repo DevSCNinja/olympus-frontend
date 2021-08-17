@@ -95,22 +95,33 @@ export const calcBondDetails =
     }
 
     // const vestingTerm = VESTING_TERM; // hardcoded for now
-    let bondPrice, bondDiscount, valuation, bondQuote;
+    let bondPrice, bondDiscount, valuation, bondQuote, debtRatio;
 
     const bondContract = contractForBond({ bond, networkID, provider });
     const bondCalcContract = new ethers.Contract(addresses[networkID].BONDINGCALC_ADDRESS, BondCalcContract, provider);
 
     const terms = await bondContract.terms();
     const maxBondPrice = await bondContract.maxPayout();
-    const debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
-
     let marketPrice = await getMarketPrice({ networkID, provider });
 
-    try {
-      bondPrice = await bondContract.bondPriceInUSD();
-      bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
-    } catch (e) {
-      console.log("error getting bondPriceInUSD", e);
+    if (isPlutusBond(bond)) {
+      debtRatio = (await bondContract.debtRatio()) / Math.pow(10, 9);
+
+      try {
+        bondPrice = await bondContract.bondPrice();
+        bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      } catch (e) {
+        console.log("error getting bondPriceInUSD", e);
+      }
+    } else {
+      debtRatio = (await bondContract.standardizedDebtRatio()) / Math.pow(10, 9);
+
+      try {
+        bondPrice = await bondContract.bondPriceInUSD();
+        bondDiscount = (marketPrice * Math.pow(10, 9) - bondPrice) / bondPrice; // 1 - bondPrice / (bondPrice * Math.pow(10, 9));
+      } catch (e) {
+        console.log("error getting bondPriceInUSD", e);
+      }
     }
 
     if (bond === BONDS.ohm_dai) {
