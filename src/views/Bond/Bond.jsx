@@ -5,6 +5,7 @@ import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.ac
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography, Fade, Grow } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
+import PlutusBondRedeem from "./PlutusBondRedeem";
 import BondRedeem from "./BondRedeem";
 import PlutusBondPurchase from "./PlutusBondPurchase";
 import BondPurchase from "./BondPurchase";
@@ -118,7 +119,7 @@ function Bond({ bond }) {
               </TabPanel>
 
               <TabPanel value={view} index={1}>
-                <BondRedeem bond={bond} />
+                {isPlutusBond(bond) ? <PlutusBondRedeem bond={bond} /> : <BondRedeem bond={bond} />}
               </TabPanel>
             </Paper>
           </Fade>
