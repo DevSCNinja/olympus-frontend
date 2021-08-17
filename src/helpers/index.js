@@ -86,6 +86,10 @@ export function bondName(bond) {
   if (bond == BONDS.eth) return "wETH";
 }
 
+export function plutusBondInfo({ networkID, bond }) {
+  return addresses[networkID].PLUTUS_BONDS[bond];
+}
+
 export function contractForBond({ bond, networkID, provider }) {
   if (bond === BONDS.ohm_dai) {
     return new ethers.Contract(addresses[networkID].BONDS.OHM_DAI, BondOhmDaiContract, provider);

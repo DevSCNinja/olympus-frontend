@@ -50,14 +50,16 @@ export const addresses = {
     PLUTUS_BONDS: {
       uni_eth_lp: {
         bondToken: "UNI-ETH LP",
-        payoutToken: "UNI",
+        payoutTokenID: "uniswap", // Used for Coingecko
+        payoutTokenTicker: "UNI",
         bondContract: "0xc61038d20ff594b9a8fdc7924d0a4714f7e7e11e",
         principalTokenContract: "0x4e99615101ccbb83a462dc4de2bc1362ef1365e5", // UNI-ETH LP
         payoutTokenContract: "0x1f9840a85d5af5bf1d1762f925bdaddc4201f984", // UNI
       },
       alcx_eth_lp: {
         bondToken: "ALCX-WETH LP",
-        payoutToken: "ALCX",
+        payoutTokenID: "alchemix", // Used for Coingecko
+        payoutTokenTicker: "ALCX",
         bondContract: "0xff4D1b6B794A3264Ed151A74d7f1eeDB762f71b0",
         principalTokenContract: "0xF6cc1B6f33868e42B137eCfe35c41D93Ba024FDA", // ALCX-WETH LP
         payoutTokenContract: "0x588D273065D9424d8b655015E88746E112fcf3ED", // ALCX
@@ -106,8 +108,12 @@ export const addresses = {
     // If we stick to Object.values(PLUTUS_BONDS), it'll simplify the code significantly.
     PLUTUS_BONDS: {
       alcx_eth_lp: {
+        bondToken: "ALCX-WETH LP",
+        payoutTokenID: "alchemix", // Used for Coingecko
+        payoutTokenTicker: "ALCX",
         bondContract: "",
-        payout: "0xdbdb4d16eda451d0503b854cf79d55697f90c8df",
+        principalTokenContract: "0xc3f279090a47e80990fe3a9c30d24cb117ef91a8",
+        payoutTokenContract: "0xdbdb4d16eda451d0503b854cf79d55697f90c8df",
       },
     },
   },
