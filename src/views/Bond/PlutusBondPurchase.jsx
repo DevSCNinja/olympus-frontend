@@ -127,10 +127,10 @@ function PlutusBondPurchase({ bond, slippage }) {
   };
 
   async function loadBondDetails() {
-    // if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
-    // if (provider && address) {
-    //   await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-    // }
+    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+    if (provider && address) {
+      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+    }
   }
 
   useEffect(() => {

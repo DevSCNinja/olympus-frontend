@@ -4,12 +4,12 @@ import orderBy from "lodash/orderBy";
 
 export const makeProBondsArray = (alcxBondDiscount, spellBondDiscount, mimBondDiscount, floatBondDiscount) => {
   return [
-    // {
-    //   name: "ALCX-ETH LP",
-    //   value: "alcx_eth_lp",
-    //   discount: Number(alcxBondDiscount),
-    //   link: "https://etherscan.io/",
-    // },
+    {
+      name: "ALCX-ETH LP",
+      value: "alcx_eth_lp",
+      discount: Number(alcxBondDiscount),
+      link: "https://rinkeby.etherscan.io/token/0xff4D1b6B794A3264Ed151A74d7f1eeDB762f71b0",
+    },
     // {
     //   name: "SPELL-ETH LP",
     //   value: "spell_eth_lp",
@@ -28,12 +28,6 @@ export const makeProBondsArray = (alcxBondDiscount, spellBondDiscount, mimBondDi
     //   discount: Number(floatBondDiscount),
     //   link: "https://etherscan.io/",
     // },
-    {
-      name: "ALCX-ETH LP",
-      value: "alcx_eth_lp",
-      discount: Number(alcxBondDiscount),
-      link: "https://rinkeby.etherscan.io/token/0xff4D1b6B794A3264Ed151A74d7f1eeDB762f71b0",
-    },
   ];
 };
 
@@ -47,7 +41,7 @@ const PLUTUS_BONDS_ARRAY = makeProBondsArray();
  */
 export default function useProBonds() {
   // const alcxBondDiscount = useSelector(state => {
-  //   return state.bonding["alcx_eth_pro"] && state.bonding["alcx_eth_pro"].bondDiscount;
+  //   return state.bonding["alcx_eth_lp"] && state.bonding["alcx_eth_lp"].bondDiscount;
   // });
 
   // const spellBondDiscount = useSelector(state => {
