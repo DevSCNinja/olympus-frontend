@@ -42,7 +42,7 @@ export function addressForBond({ bond, networkID }) {
     return addresses[networkID].BONDS.ETH;
   }
 
-  if (isPlutusBond(bond)) return addresses[networkID].PLUTUS_BONDS[bond];
+  if (isPlutusBond(bond)) return addresses[networkID].PLUTUS_BONDS[bond].bondContract;
 }
 
 export function addressForAsset({ bond, networkID }) {
@@ -125,7 +125,7 @@ export function contractForReserve({ bond, networkID, provider }) {
   }
 
   if (isPlutusBond(bond))
-    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].payout, ierc20Abi, provider);
+    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].payoutTokenContract, ierc20Abi, provider);
 }
 
 export function contractForRedeemHelper({ networkID, provider }) {
