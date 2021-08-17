@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { trim } from "../../helpers";
+import { trim, isPlutusBond } from "../../helpers";
 import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions.js";
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography, Fade, Grow } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
 import BondRedeem from "./BondRedeem";
+import PlutusBondPurchase from "./PlutusBondPurchase";
 import BondPurchase from "./BondPurchase";
 import "./bond.scss";
 import { useWeb3Context } from "src/hooks/web3Context";
@@ -109,7 +110,11 @@ function Bond({ bond }) {
               </Tabs>
 
               <TabPanel value={view} index={0}>
-                <BondPurchase bond={bond} slippage={slippage} />
+                {isPlutusBond(bond) ? (
+                  <PlutusBondPurchase bond={bond} slippage={slippage} />
+                ) : (
+                  <BondPurchase bond={bond} slippage={slippage} />
+                )}
               </TabPanel>
 
               <TabPanel value={view} index={1}>
