@@ -125,7 +125,7 @@ export function contractForReserve({ bond, networkID, provider }) {
   }
 
   if (isPlutusBond(bond))
-    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].payoutTokenContract, ierc20Abi, provider);
+    return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].principalTokenContract, ierc20Abi, provider);
 }
 
 export function contractForRedeemHelper({ networkID, provider }) {
