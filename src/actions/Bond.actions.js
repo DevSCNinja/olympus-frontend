@@ -7,6 +7,7 @@ import {
   addressForAsset,
   bondName,
   isPlutusBond,
+  contractForRedeemHelper,
 } from "../helpers";
 import { addresses, Actions, BONDS, PLUTUS_BONDS } from "../constants";
 import { abi as BondCalcContract } from "../abi/BondCalcContract.json";
@@ -297,5 +298,25 @@ export const redeemBond =
       if (redeemTx) {
         dispatch(clearPendingTxn(redeemTx.hash));
       }
+    }
+  };
+
+export const redeemAllBonds =
+  ({ networkID, recipient, autoStake, provider }) =>
+  async dispatch => {
+    if (!provider) {
+      alert("Please connect your wallet!");
+      return;
+    }
+
+    const signer = provider.getSigner();
+    const redeemHelperContract = contractForRedeemHelper({ networkID, provider: signer });
+
+    try {
+      const redeemAllTx = await redeemHelperContract.redeemAll(recipient, autoStake === true);
+
+      await redeemAllTx.wait();
+    } catch (error) {
+      alert(error.message);
     }
   };

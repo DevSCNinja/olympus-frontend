@@ -17,6 +17,7 @@ import { BondTableData, BondDataCard } from "./BondRow";
 import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { trim } from "../../helpers";
 import useProBonds from "../../hooks/ProBonds";
+import CardHeader from "../../components/CardHeader/CardHeader";
 import "./plutus.scss";
 
 function ViewtusPlutus() {
@@ -31,9 +32,7 @@ function ViewtusPlutus() {
     <div id="plutus-view">
       <Zoom in={true}>
         <Paper className="ohm-card">
-          <Box className="card-header">
-            <Typography variant="h5">Plutus (1,1)</Typography>
-          </Box>
+          <CardHeader title="Plutus (1,1)" />
 
           <Grid container item xs={12} style={{ margin: "10px 0px 20px" }} className="bond-hero">
             <Grid item xs={6} className={`total-purchased`}>

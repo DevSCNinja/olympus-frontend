@@ -47,19 +47,19 @@ const PLUTUS_BONDS_ARRAY = makeProBondsArray();
  */
 export default function useProBonds() {
   // const alcxBondDiscount = useSelector(state => {
-  //   return state.bonding["frax"] && state.bonding["frax"].bondDiscount;
+  //   return state.bonding["alcx_eth_pro"] && state.bonding["alcx_eth_pro"].bondDiscount;
   // });
 
   // const spellBondDiscount = useSelector(state => {
-  //   return state.bonding["dai"] && state.bonding["dai"].bondDiscount;
+  //   return state.bonding["spell_eth_pro"] && state.bonding["spell_eth_pro"].bondDiscount;
   // });
 
   // const mimBondDiscount = useSelector(state => {
-  //   return state.bonding["ohm_dai_lp"] && state.bonding["ohm_dai_lp"].bondDiscount;
+  //   return state.bonding["mim_eth_pro"] && state.bonding["mim_eth_pro"].bondDiscount;
   // });
 
   // const floatBondDiscount = useSelector(state => {
-  //   return state.bonding["ohm_frax_lp"] && state.bonding["ohm_frax_lp"].bondDiscount;
+  //   return state.bonding["float_eth_pro"] && state.bonding["float_eth_pro"].bondDiscount;
   // });
 
   // temporary values

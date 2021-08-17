@@ -63,6 +63,10 @@ export function addressForAsset({ bond, networkID }) {
   }
 }
 
+export function addressForRedeemHelper({ networkID }) {
+  return addresses[networkID].REDEEM_HELPER_ADDRESS;
+}
+
 export function isBondLP(bond) {
   return bond.indexOf("_lp") >= 0;
 }
@@ -122,6 +126,10 @@ export function contractForReserve({ bond, networkID, provider }) {
 
   if (isPlutusBond(bond))
     return new ethers.Contract(addresses[networkID].PLUTUS_BONDS[bond].payout, ierc20Abi, provider);
+}
+
+export function contractForRedeemHelper({ networkID, provider }) {
+  return new ethers.Contract(addressForRedeemHelper({ networkID }), RedeemHelperAbi, provider);
 }
 
 export async function getMarketPrice({ networkID, provider }) {
