@@ -20,6 +20,7 @@ import { ReactComponent as OhmDaiImg } from "../assets/tokens/OHM-DAI.svg";
 import { ReactComponent as FraxImg } from "../assets/tokens/FRAX.svg";
 import { ReactComponent as OhmFraxImg } from "../assets/tokens/OHM-FRAX.svg";
 import { ReactComponent as wETHImg } from "../assets/tokens/wETH.svg";
+import { ReactComponent as AlcxEthImg } from "../assets/tokens/ALCX-ETH.svg";
 
 export function isPlutusBond(bond) {
   return Object.values(PLUTUS_BONDS).indexOf(bond) > -1;
@@ -249,6 +250,8 @@ export function getPairImage(name) {
     return <SvgIcon component={OhmDaiImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
   if (name.indexOf("frax") >= 0)
     return <SvgIcon component={OhmFraxImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
+  if (name.indexOf("alcx") >= 0)
+    return <SvgIcon component={AlcxEthImg} viewBox="0 0 64 32" style={{ height: "32px", width: "64px" }} />;
 }
 
 export function priceUnits(bond) {

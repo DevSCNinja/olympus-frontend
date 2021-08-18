@@ -7,7 +7,9 @@ function BondHeader({ bond }) {
       return getTokenImage("frax");
     } else if (bond.indexOf("dai") >= 0) {
       return getTokenImage("dai");
-    } else if (bond.indexOf("eth") >= 0) {
+    } else if (bond.indexOf("eth") > 0) {
+      return getPairImage(bond);
+    } else if (bond.indexOf("eth") === 0) {
       return getTokenImage("eth");
     }
   };
