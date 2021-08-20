@@ -2,6 +2,7 @@ import { ethers } from "ethers";
 import {
   isBondLP,
   getMarketPrice,
+<<<<<<< HEAD:src/actions/Bond.actions.js
   getTokenPrice,
   contractForBond,
   contractForReserve,
@@ -30,6 +31,27 @@ export const fetchBondSuccess = payload => ({
 export const changeApproval =
   ({ bond, provider, address, networkID }) =>
   async dispatch => {
+=======
+  contractForBond,
+  contractForReserve,
+  addressForBond,
+  addressForAsset,
+  bondName,
+} from "../helpers";
+import { getBalances } from "./AccountSlice";
+import { addresses, Actions, BONDS, VESTING_TERM } from "../constants";
+import { abi as BondCalcContract } from "../abi/bonds/OhmDaiCalcContract.json";
+import { fetchPendingTxns, clearPendingTxn } from "./PendingTxnsSlice";
+import { createSlice, createSelector, createAsyncThunk, createEntityAdapter } from "@reduxjs/toolkit";
+
+const initialState = {
+  status: "idle",
+};
+
+export const changeApproval = createAsyncThunk(
+  "bonding/changeApproval",
+  async ({ bond, provider, address, networkID }, { dispatch }) => {
+>>>>>>> origin/develop:src/slices/BondSlice.js
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -68,6 +90,7 @@ export const changeApproval =
           ethers.utils.parseUnits("1000000000", "ether").toString(),
         );
       }
+<<<<<<< HEAD:src/actions/Bond.actions.js
 
       if (isPlutusBond(bond)) {
         approveTx = await reserveContract.approve(
@@ -76,10 +99,11 @@ export const changeApproval =
         );
       }
 
+=======
+>>>>>>> origin/develop:src/slices/BondSlice.js
       dispatch(
         fetchPendingTxns({ txnHash: approveTx.hash, text: "Approving " + bondName(bond), type: "approve_" + bond }),
       );
-
       await approveTx.wait();
     } catch (error) {
       alert(error.message);
@@ -88,11 +112,12 @@ export const changeApproval =
         dispatch(clearPendingTxn(approveTx.hash));
       }
     }
-  };
+  },
+);
 
-export const calcBondDetails =
-  ({ bond, value, provider, networkID }) =>
-  async dispatch => {
+export const calcBondDetails = createAsyncThunk(
+  "bonding/calcBondDetails",
+  async ({ bond, value, provider, networkID }, { dispatch }) => {
     let amountInWei;
     if (!value || value === "") {
       amountInWei = ethers.utils.parseEther("0.0001"); // Use a realistic SLP ownership
@@ -192,6 +217,7 @@ export const calcBondDetails =
       purchased = purchased / Math.pow(10, 18);
     }
 
+<<<<<<< HEAD:src/actions/Bond.actions.js
     return dispatch(
       fetchBondSuccess({
         bond,
@@ -210,9 +236,28 @@ export const calcBondDetails =
 export const calculateUserBondDetails =
   ({ address, bond, networkID, provider }) =>
   async dispatch => {
+=======
+    return {
+      bond,
+      bondDiscount,
+      debtRatio,
+      bondQuote,
+      purchased,
+      vestingTerm: Number(terms.vestingTerm),
+      maxBondPrice: maxBondPrice / Math.pow(10, 9),
+      bondPrice: bondPrice / Math.pow(10, 18),
+      marketPrice: marketPrice / Math.pow(10, 9),
+    };
+  },
+);
+
+export const calculateUserBondDetails = createAsyncThunk(
+  "bonding/calculateUserBondDetails",
+  async ({ address, bond, networkID, provider }, { dispatch }) => {
+>>>>>>> origin/develop:src/slices/BondSlice.js
     if (!address) return;
 
-    dispatch(fetchBondInProgress());
+    // dispatch(fetchBondInProgress());
 
     // Calculate bond details.
     const bondContract = contractForBond({ bond, provider, networkID });
@@ -254,6 +299,7 @@ export const calculateUserBondDetails =
       balance = ethers.utils.formatUnits(balance, "ether");
     }
 
+<<<<<<< HEAD:src/actions/Bond.actions.js
     if (isPlutusBond(bond)) {
       allowance = await reserveContract.allowance(address, addresses[networkID].PLUTUS_BONDS[bond].bondContract);
 
@@ -276,6 +322,22 @@ export const calculateUserBondDetails =
 export const bondAsset =
   ({ value, address, bond, networkID, provider, slippage }) =>
   async dispatch => {
+=======
+    return {
+      bond,
+      allowance: Number(allowance),
+      balance: Number(balance),
+      interestDue,
+      bondMaturationBlock,
+      pendingPayout: ethers.utils.formatUnits(pendingPayout, "gwei"),
+    };
+  },
+);
+
+export const bondAsset = createAsyncThunk(
+  "bonding/bondAsset",
+  async ({ value, address, bond, networkID, provider, slippage }, { dispatch }) => {
+>>>>>>> origin/develop:src/slices/BondSlice.js
     const depositorAddress = address;
     const acceptedSlippage = slippage / 100 || 0.005; // 0.5% as default
     const valueInWei = ethers.utils.parseUnits(value.toString(), "ether");
@@ -309,11 +371,12 @@ export const bondAsset =
         dispatch(clearPendingTxn(bondTx.hash));
       }
     }
-  };
+  },
+);
 
-export const redeemBond =
-  ({ address, bond, networkID, provider, autostake }) =>
-  async dispatch => {
+export const redeemBond = createAsyncThunk(
+  "bonding/redeemBond",
+  async ({ address, bond, networkID, provider, autostake }, { dispatch }) => {
     if (!provider) {
       alert("Please connect your wallet!");
       return;
@@ -338,6 +401,7 @@ export const redeemBond =
         dispatch(clearPendingTxn(redeemTx.hash));
       }
     }
+<<<<<<< HEAD:src/actions/Bond.actions.js
   };
 
 export const redeemAllBonds =
@@ -359,3 +423,52 @@ export const redeemAllBonds =
       alert(error.message);
     }
   };
+=======
+  },
+);
+
+const bondingSlice = createSlice({
+  name: "bonding",
+  initialState,
+  reducers: {
+    fetchBondSuccess(state, action) {
+      state[action.payload.bond] = action.payload;
+    },
+  },
+  extraReducers: builder => {
+    builder
+      .addCase(calcBondDetails.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(calcBondDetails.fulfilled, (state, action) => {
+        state[action.payload.bond] = action.payload;
+        state.loading = false;
+      })
+      .addCase(calcBondDetails.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      })
+      .addCase(calculateUserBondDetails.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(calculateUserBondDetails.fulfilled, (state, action) => {
+        const bond = action.payload.bond;
+        const newState = { ...state[bond], ...action.payload };
+        state[bond] = newState;
+        state.loading = false;
+      })
+      .addCase(calculateUserBondDetails.rejected, (state, { error }) => {
+        state.loading = false;
+        console.log(error);
+      });
+  },
+});
+
+export default bondingSlice.reducer;
+
+export const { fetchBondSuccess } = bondingSlice.actions;
+
+const baseInfo = state => state.bonding;
+
+export const getBondingState = createSelector(baseInfo, bonding => bonding);
+>>>>>>> origin/develop:src/slices/BondSlice.js

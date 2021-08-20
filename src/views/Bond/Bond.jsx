@@ -1,7 +1,12 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+<<<<<<< HEAD
 import { trim, isPlutusBond } from "../../helpers";
 import { calcBondDetails, calculateUserBondDetails } from "../../actions/Bond.actions.js";
+=======
+import { trim } from "../../helpers";
+import { calcBondDetails, calculateUserBondDetails } from "../../slices/BondSlice";
+>>>>>>> origin/develop
 import { Grid, Backdrop, Paper, Box, Tab, Tabs, Typography, Fade, Grow } from "@material-ui/core";
 import TabPanel from "../../components/TabPanel";
 import BondHeader from "./BondHeader";
@@ -30,7 +35,7 @@ function Bond({ bond }) {
   const [view, setView] = useState(0);
   const [quantity, setQuantity] = useState();
 
-  const isBondLoading = useSelector(state => state.bonding[bond]?.loading ?? true);
+  const isBondLoading = useSelector(state => state.bonding.loading ?? true);
   const marketPrice = useSelector(state => {
     return state.bonding[bond] && state.bonding[bond].marketPrice;
   });
