@@ -8,7 +8,7 @@ import CssBaseline from "@material-ui/core/CssBaseline";
 import useTheme from "./hooks/useTheme";
 import { useAddress, useWeb3Context } from "./hooks/web3Context";
 
-import { calcBondDetails } from "./slices/BondSlice";
+import { calcBondDetails, calculateUserBondDetails } from "./slices/BondSlice";
 import { loadAppDetails } from "./slices/AppSlice";
 import { loadAccountDetails } from "./slices/AccountSlice";
 
@@ -125,6 +125,11 @@ function App() {
     if (whichDetails === "app") {
       Object.values(BONDS).map(async bond => {
         await dispatch(calcBondDetails({ bond, value: null, provider: loadProvider, networkID: chainID }));
+      });
+    }
+    if (whichDetails === "app" && address && connected) {
+      Object.values(BONDS).map(async bond => {
+        await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
       });
     }
   }

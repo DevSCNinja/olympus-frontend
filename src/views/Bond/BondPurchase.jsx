@@ -126,16 +126,17 @@ function BondPurchase({ bond, slippage }) {
     else return "FRAX";
   };
 
-  async function loadBondDetails() {
-    if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
+  // async function loadBondDetails() {
+  //   console.log("calc bond details in bondpurchase component");
+  //   if (provider) await dispatch(calcBondDetails({ bond, value: quantity, provider, networkID: chainID }));
 
-    if (provider && address) {
-      await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
-    }
-  }
+  //   if (provider && address) {
+  //     await dispatch(calculateUserBondDetails({ address, bond, provider, networkID: chainID }));
+  //   }
+  // }
 
   useEffect(() => {
-    loadBondDetails();
+    // loadBondDetails();
     if (address) setRecipientAddress(address);
   }, [provider, quantity, address]);
 
