@@ -163,3 +163,9 @@
     }
   }
 }
+
+@media only screen and (max-height: 728px) {
+  .dapp-sidebar {
+    height: auto;
+  }
+}
