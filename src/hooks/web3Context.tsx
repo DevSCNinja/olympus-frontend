@@ -85,7 +85,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [uri, setUri] = useState(getMainnetURI());
   const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
   const [signer, setSigner] = useState<Signer>(provider.getSigner());
-  
+
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
       // network: "mainnet", // optional
