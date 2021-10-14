@@ -1,6 +1,8 @@
 import React, { useState, ReactElement, useContext, useEffect, useMemo, useCallback } from "react";
 import Web3Modal from "web3modal";
 import { StaticJsonRpcProvider, JsonRpcProvider, Web3Provider, WebSocketProvider } from "@ethersproject/providers";
+import { Signer } from "@ethersproject/abstract-signer";
+import { LedgerSigner } from "@ethersproject/hardware-wallets";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
@@ -90,6 +92,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     }
   };
   const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
+  const [signer, setSigner] = useState<Signer>(provider.getSigner());
 
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
@@ -161,17 +164,26 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // handling Ledger Live;
     let rawProvider;
     if (isIframe()) {
+      // if (isIframe()) {
       rawProvider = new IFrameEthereumProvider();
     } else {
       rawProvider = await web3Modal.connect();
     }
-
+    // debugger;
     // new _initListeners implementation matches Web3Modal Docs
     // ... see here: https://github.com/Web3Modal/web3modal/blob/2ff929d0e99df5edf6bb9e88cff338ba6d8a3991/example/src/App.tsx#L185
     _initListeners(rawProvider);
+    // IFrameEthereumProvider can be wrapped in Web3Provider too: https://github.com/LedgerHQ/iframe-provider
     const connectedProvider = new Web3Provider(rawProvider, "any");
     const chainId = await connectedProvider.getNetwork().then(network => network.chainId);
     const connectedAddress = await connectedProvider.getSigner().getAddress();
+
+    if (IFrameEthereumProvider.prototype.isPrototypeOf(rawProvider) === true) {
+      // then this is an IframeProvider & .getSigner() is not available
+      setSigner(new LedgerSigner(connectedProvider));
+    } else {
+      setSigner(connectedProvider.getSigner());
+    }
 
     const validNetwork = _checkNetwork(chainId);
     if (!validNetwork) {
@@ -186,6 +198,7 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     // Keep this at the bottom of the method, to ensure any repaints have the data we need
     setConnected(true);
 
+    console.log("checking", provider, signer);
     return connectedProvider;
   }, [provider, web3Modal, connected]);
 
