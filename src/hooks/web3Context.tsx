@@ -6,6 +6,7 @@ import { LedgerSigner } from "@ethersproject/hardware-wallets";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import { IFrameEthereumProvider } from "@ledgerhq/iframe-provider";
 import { EnvHelper } from "../helpers/Environment";
+import { NodeHelper } from "src/helpers/NodeHelper";
 
 /**
  * kept as function to mimic `getMainnetURI()`
@@ -22,7 +23,7 @@ function isIframe() {
   return window.location !== window.parent.location;
 }
 
-const ALL_URIs = EnvHelper.getAPIUris();
+const ALL_URIs = NodeHelper.getNodesUris();
 
 /**
  * "intelligently" loadbalances production API Keys
@@ -82,18 +83,9 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
   const [address, setAddress] = useState("");
 
   const [uri, setUri] = useState(getMainnetURI());
-
-  // if websocket we need to change providerType
-  const providerType = () => {
-    if (uri.indexOf("ws://") === 0 || uri.indexOf("wss://") === 0) {
-      return new WebSocketProvider(uri);
-    } else {
-      return new StaticJsonRpcProvider(uri);
-    }
-  };
-  const [provider, setProvider] = useState<JsonRpcProvider>(providerType);
+  const [provider, setProvider] = useState<JsonRpcProvider>(new StaticJsonRpcProvider(uri));
   const [signer, setSigner] = useState<Signer>(provider.getSigner());
-
+  
   const [web3Modal, setWeb3Modal] = useState<Web3Modal>(
     new Web3Modal({
       // network: "mainnet", // optional
@@ -217,10 +209,10 @@ export const Web3ContextProvider: React.FC<{ children: ReactElement }> = ({ chil
     [connect, disconnect, hasCachedProvider, provider, connected, address, chainID, web3Modal],
   );
 
-  // initListeners needs to be run on rawProvider... see connect()
-  // useEffect(() => {
-  //   _initListeners();
-  // }, [connected]);
+  useEffect(() => {
+    // logs non-functioning nodes && returns an array of working mainnet nodes, could be used to optimize connection
+    NodeHelper.checkAllNodesStatus();
+  }, []);
 
   return <Web3Context.Provider value={{ onChainProvider }}>{children}</Web3Context.Provider>;
 };
